@@ -45,45 +45,32 @@
 </head>
 <body>
 
-<form method="POST">
-
-    <label>Seleccionar origen de datos:</label>
-    <select name="origen" class="input-box">
-        <option value="csv">CSV</option>
-        <option value="mysql">MySQL</option>
-        <option value="mariadb">MariaDB</option>
-        <option value="sqlite">SQLite</option>
-        <option value="sqlalchemy">SQLAlchemy</option>
-    </select>
-
-    <br><br>
-
-    <label>Hectáreas:</label>
-    <input type="number" step="0.01" name="hectareas" required>
-
-    <label>Temperatura media:</label>
-    <input type="number" step="0.01" name="temperatura" required>
-
-    <label>Litros de lluvia:</label>
-    <input type="number" step="0.01" name="lluvia" required>
-
-    <button type="submit">Calcular</button>
-</form>
-
 <div class="card">
     <h2>Predicción IA - Producción Agrícola</h2>
 
     <form method="POST">
+
+        <label>Seleccionar origen de datos:</label>
+        <select name="origen" class="input-box">
+            <option value="csv">CSV</option>
+            <option value="mysql">MySQL</option>
+            <option value="mariadb">MariaDB</option>
+            <option value="sqlite">SQLite</option>
+            <option value="sqlalchemy">SQLAlchemy</option>
+        </select>
+
+        <br><br>
+
         <label>Hectáreas:</label>
-        <input type="number" step="0.1" name="hectareas" required>
+        <input type="number" step="0.01" name="hectareas" required>
 
-        <label>Temperatura media anual (°C):</label>
-        <input type="number" step="0.1" name="temperatura" required>
+        <label>Temperatura media:</label>
+        <input type="number" step="0.01" name="temperatura" required>
 
-        <label>Precipitaciones (mm):</label>
-        <input type="number" step="0.1" name="lluvia" required>
+        <label>Litros de lluvia:</label>
+        <input type="number" step="0.01" name="lluvia" required>
 
-        <button type="submit">Calcular predicción</button>
+        <button type="submit">Calcular</button>
     </form>
 
     {% if prediccion %}
