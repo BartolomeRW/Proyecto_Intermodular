@@ -90,3 +90,10 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+fuente.guardar_prediccion(origen, {
+    "hectareas": hect,
+    "temperatura": temp,
+    "lluvia": lluv,
+    "prediccion": prediccion
+})

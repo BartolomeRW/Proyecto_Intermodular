@@ -22,3 +22,6 @@ def leer_sqlite(ruta_sqlite, tabla):
 def leer_sqlalchemy(url, query):
     engine = create_engine(url)
     return pd.read_sql(query, engine)
+
+def guardar_prediccion(origen, datos):
+    ...
