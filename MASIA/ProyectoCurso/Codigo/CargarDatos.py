@@ -16,12 +16,11 @@ def leer_mysql(host, user, password, database, tabla):
     return df
 
 def leer_mariadb(host, user, password, database, tabla):
-    url = f"mysql+mariadbconnector://{user}:{password}@{host}/{database}"
+    url = f"mysql+pymysql://{user}:{password}@{host}/{database}"
     engine = create_engine(url, echo=False)
 
     with engine.connect() as conn:
-        query = f"SELECT * FROM {tabla}"
-        return pd.read_sql(query, conn)
+        return pd.read_sql(f"SELECT * FROM {tabla}", conn)
 
 def leer_sqlite(ruta_sqlite, tabla):
     url = f"sqlite:///{ruta_sqlite}"
