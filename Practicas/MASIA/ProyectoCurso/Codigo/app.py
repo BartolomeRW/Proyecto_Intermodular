@@ -6,6 +6,7 @@ import os
 from flask import Flask, render_template, request
 import joblib
 import CargarDatos as fuente   # Import correcto
+from CargarDatos import fuente_leer_mysql, fuente_leer_csv
 
 app = Flask(__name__)
 modelo = joblib.load("modelo_IA.pkl")
@@ -33,11 +34,12 @@ def index():
 
         origen = request.form.get("origen")
 
-        if origen == "csv":
-            df = fuente.leer_csv("cosechas.csv")
+        if origen == "mysql":
+            df = fuente_leer_mysql()
 
-        elif origen == "mysql":
-            df = fuente.leer_mysql("localhost", "root", "1234", "masia", "cosechas")
+        elif origen == "csv":
+            df = fuente_leer_csv("cosechas.csv")
+
 
         elif origen == "mariadb":
             df = fuente.leer_mariadb("localhost", "root", "1234", "masia", "cosechas")
@@ -91,9 +93,3 @@ def index():
 if __name__ == "__main__":
     app.run(debug=True)
 
-fuente.guardar_prediccion(origen, {
-    "hectareas": hect,
-    "temperatura": temp,
-    "lluvia": lluv,
-    "prediccion": prediccion
-})
