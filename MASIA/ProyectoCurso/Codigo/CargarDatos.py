@@ -9,7 +9,6 @@ def leer_mysql(host, user, password, database, tabla):
     engine = create_engine(url)
 
     query = f"SELECT * FROM {tabla};"
-
     df = pd.read_sql(query, engine)
     return df
 def leer_mariadb(host, user, password, database, tabla):

@@ -5,7 +5,6 @@ import numpy as np
 import os
 import joblib
 
-# Import correcto de funciones personalizadas
 from CargarDatos import (
     leer_csv,
     leer_mysql,
@@ -17,6 +16,10 @@ from CargarDatos import (
 app = Flask(__name__)
 modelo = joblib.load("modelo_IA.pkl")
 
+# Crear carpeta static si no existe
+if not os.path.exists("static"):
+    os.makedirs("static")
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -25,22 +28,17 @@ def index():
 
     if request.method == "POST":
 
-        # ---------------------------
-        # CAPTURAR DATOS DEL FORM
-        # ---------------------------
         origen = request.form.get("origen")
         hect = float(request.form["hectareas"])
         temp = float(request.form["temperatura"])
         lluv = float(request.form["lluvia"])
 
-        # ---------------------------
-        # SELECCIÓN DE ORIGEN
-        # ---------------------------
+        # ORIGEN DE DATOS
         if origen == "mysql":
             df = leer_mysql(
                 host="localhost",
                 user="root",
-                password="1234",          # tu contraseña de MySQL
+                password="1234",
                 database="produccion_agricola",
                 tabla="cosechas"
             )
@@ -51,31 +49,30 @@ def index():
         elif origen == "sqlite":
             df = leer_sqlite("basedatos.db", "cosechas")
 
-        else:   # CSV por defecto
+        elif origen == "sqlalchemy":
+            df = leer_sqlalchemy(
+                "postgresql://usuario:pass@localhost/basedatos",
+                "SELECT * FROM cosechas"
+            )
+
+        else:
             df = leer_csv("cosechas.csv")
 
-        # ---------------------------
-        # PREDICCIÓN DEL MODELO
-        # ---------------------------
+        # PREDICCIÓN
         entrada = np.array([[hect, temp, lluv]])
-        prediccion = round(modelo.predict(entrada)[0], 2)
+        prediccion = round(float(modelo.predict(entrada)[0]), 2)
 
-        # ---------------------------
-        # GENERAR GRÁFICO
-        # ---------------------------
-        if not os.path.exists("static"):
-            os.makedirs("static")
-
+        # GRÁFICO
         plt.figure(figsize=(6, 4))
-        plt.plot(df["ano"], df["toneladas"], marker="o")
-        plt.scatter(2026, prediccion, color="red")
+        plt.plot(df["ano"], df["toneladas"], marker="o", color="blue")
+        plt.scatter(2026, prediccion, color="red", s=100)
 
-        plt.title("Predicción de producción")
+        plt.title("Predicción de producción agrícola")
         plt.xlabel("Año")
         plt.ylabel("Toneladas")
         plt.tight_layout()
 
-        grafico = "static/grafico.png"
+        grafico = "static/graficos/grafico.png"
         plt.savefig(grafico)
         plt.close()
 
@@ -83,4 +80,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
