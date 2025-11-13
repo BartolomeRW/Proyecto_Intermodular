@@ -11,6 +11,7 @@ def leer_mysql(host, user, password, database, tabla):
     query = f"SELECT * FROM {tabla};"
     df = pd.read_sql(query, engine)
     return df
+
 def leer_mariadb(host, user, password, database, tabla):
     url = f"mysql+pymysql://{user}:{password}@{host}/{database}"
     engine = create_engine(url, echo=False)

@@ -68,16 +68,3 @@ def index():
         plt.scatter(2026, prediccion, color="red", s=100)
 
         plt.title("Predicción de producción agrícola")
-        plt.xlabel("Año")
-        plt.ylabel("Toneladas")
-        plt.tight_layout()
-
-        grafico = "static/graficos/grafico.png"
-        plt.savefig(grafico)
-        plt.close()
-
-    return render_template("index.html", prediccion=prediccion, grafico=grafico)
-
-
-if __name__ == "__main__":
-    app.run(debug=False)
