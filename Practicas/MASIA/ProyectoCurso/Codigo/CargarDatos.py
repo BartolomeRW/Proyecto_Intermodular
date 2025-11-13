@@ -19,8 +19,10 @@ def leer_mariadb(host, user, password, database, tabla):
 def leer_sqlite(ruta_sqlite, tabla):
     url = f"sqlite:///{ruta_sqlite}"
     engine = create_engine(url)
-    return pd.read_sql(f"SELECT * FROM {tabla}", engine)
+    with engine.connect() as conn:
+        return pd.read_sql(f"SELECT * FROM {tabla}", conn)
 
 def leer_sqlalchemy(url, query):
     engine = create_engine(url)
-    return pd.read_sql(query, engine)
+    with engine.connect() as conn:
+        return pd.read_sql(query, conn)
