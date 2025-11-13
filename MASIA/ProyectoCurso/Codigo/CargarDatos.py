@@ -4,49 +4,49 @@ from sqlalchemy import create_engine
 def leer_csv(ruta):
     return pd.read_csv(ruta)
 
-
 # ----------------------------
-# LECTOR MYSQL
+# MYSQL
 # ----------------------------
 def leer_mysql(host, user, password, database, tabla):
     url = f"mysql+mysqlconnector://{user}:{password}@{host}/{database}"
     engine = create_engine(url)
-
     query = f"SELECT * FROM {tabla}"
-    df = pd.read_sql(query, engine)
+
+    with engine.connect() as conn:
+        df = pd.read_sql(query, conn)
     return df
 
-
 # ----------------------------
-# LECTOR MARIADB
+# MARIADB
 # ----------------------------
 def leer_mariadb(host, user, password, database, tabla):
     url = f"mariadb+mariadbconnector://{user}:{password}@{host}/{database}"
     engine = create_engine(url)
-
     query = f"SELECT * FROM {tabla}"
-    df = pd.read_sql(query, engine)
+
+    with engine.connect() as conn:
+        df = pd.read_sql(query, conn)
     return df
 
-
 # ----------------------------
-# LECTOR SQLITE
+# SQLITE
 # ----------------------------
 def leer_sqlite(ruta_sqlite, tabla):
     url = f"sqlite:///{ruta_sqlite}"
     engine = create_engine(url)
-
     query = f"SELECT * FROM {tabla}"
-    df = pd.read_sql(query, engine)
+
+    with engine.connect() as conn:
+        df = pd.read_sql(query, conn)
     return df
 
-
 # ----------------------------
-# LECTOR SQLALCHEMY
+# SQLALCHEMY (GENÉRICO)
 # ----------------------------
 def leer_sqlalchemy(url, tabla):
     engine = create_engine(url)
-
     query = f"SELECT * FROM {tabla}"
-    df = pd.read_sql(query, engine)
+
+    with engine.connect() as conn:
+        df = pd.read_sql(query, conn)
     return df
