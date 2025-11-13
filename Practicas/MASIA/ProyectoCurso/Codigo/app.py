@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request
-import joblib
-import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 import os
+from flask import Flask, render_template, request
+import joblib
+import CargarDatos as fuente   # Import correcto
 
 app = Flask(__name__)
 modelo = joblib.load("modelo_IA.pkl")
@@ -21,7 +23,53 @@ def index():
         entrada = np.array([[hect, temp, lluv]])
         prediccion = round(modelo.predict(entrada)[0], 2)
 
-        df = pd.read_csv("cosechas.csv")
+        # -------------------------------------
+        # SELECCIONAR FUENTE DE DATOS PARA LA WEB
+        # -------------------------------------
+
+        # -------------------------------------
+        # SELECCIONAR FUENTE DE DATOS PARA LA WEB
+        # -------------------------------------
+
+        origen = request.form.get("origen")
+
+        if origen == "csv":
+            df = fuente.leer_csv("cosechas.csv")
+
+        elif origen == "mysql":
+            df = fuente.leer_mysql("localhost", "root", "1234", "masia", "cosechas")
+
+        elif origen == "mariadb":
+            df = fuente.leer_mariadb("localhost", "root", "1234", "masia", "cosechas")
+
+        elif origen == "sqlite":
+            df = fuente.leer_sqlite("basedatos.db", "cosechas")
+
+        elif origen == "sqlalchemy":
+            df = fuente.leer_sqlalchemy(
+                "postgresql://user:pass@localhost/db",
+                "SELECT * FROM cosechas"
+            )
+
+        else:
+            df = fuente.leer_csv("cosechas.csv")   # fallback
+
+        # CSV
+        df = fuente.leer_csv("cosechas.csv")
+
+        # MySQL
+        # df = fuente.leer_mysql("localhost", "root", "1234", "masia", "cosechas")
+
+        # MariaDB
+        # df = fuente.leer_mariadb("localhost", "root", "1234", "masia", "cosechas")
+
+        # SQLite
+        # df = fuente.leer_sqlite("basedatos.db", "cosechas")
+
+        # SQLAlchemy
+        # df = fuente.leer_sqlalchemy("postgresql://user:pass@localhost/db", "SELECT * FROM cosechas")
+
+        # -------------------------------------
 
         if not os.path.exists("static"):
             os.makedirs("static")
