@@ -51,12 +51,6 @@ def index():
         elif origen == "sqlite":
             df = leer_sqlite("basedatos.db", "cosechas")
 
-        elif origen == "sqlalchemy":
-            df = leer_sqlalchemy(
-                "postgresql://user:pass@localhost/db",
-                "SELECT * FROM cosechas"
-            )
-
         else:   # CSV por defecto
             df = leer_csv("cosechas.csv")
 
