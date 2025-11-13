@@ -16,10 +16,9 @@ from CargarDatos import (
 app = Flask(__name__)
 modelo = joblib.load("modelo_IA.pkl")
 
-# Crear carpeta static si no existe
-if not os.path.exists("static"):
-    os.makedirs("static")
-
+# Crear carpeta static/graficos si no existe
+if not os.path.exists("static/graficos"):
+    os.makedirs("static/graficos")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -52,7 +51,7 @@ def index():
         elif origen == "sqlalchemy":
             df = leer_sqlalchemy(
                 "postgresql://usuario:pass@localhost/basedatos",
-                "SELECT * FROM cosechas"
+                "cosechas"
             )
 
         else:
@@ -65,6 +64,19 @@ def index():
         # GRÁFICO
         plt.figure(figsize=(6, 4))
         plt.plot(df["ano"], df["toneladas"], marker="o", color="blue")
-        plt.scatter(2026, prediccion, color="red", s=100)
+        plt.scatter(2026, prediccion, color="red", s=120)
 
         plt.title("Predicción de producción agrícola")
+        plt.xlabel("Año")
+        plt.ylabel("Toneladas")
+        plt.tight_layout()
+
+        # Guardar gráfico en carpeta que Flask NO reinicia
+        grafico = "static/graficos/grafico.png"
+        plt.savefig(grafico)
+        plt.close()
+
+    return render_template("index.html", prediccion=prediccion, grafico=grafico)
+
+if __name__ == "__main__":
+    app.run(debug=False)
