@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Predicción IA - Producción Agrícola</title>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,92 +11,71 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
         }
-
         .card {
             background: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 10px;
             width: 450px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-
         input, select {
             width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            margin-bottom: 16px;
-            border: 1px solid #c5c5c5;
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
         }
-
         button {
             background: #004aad;
             color: #ffffff;
-            padding: 12px;
+            padding: 10px;
             width: 100%;
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 15px;
         }
-
         button:hover {
             background: #003170;
         }
-
         h2, h3 {
             text-align: center;
-        }
-
-        img {
-            width: 100%;
-            margin-top: 15px;
-            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>Predicción de futura producción Agrícola</h2>
+    <h2>Predicción IA - Producción Agrícola</h2>
 
     <form method="POST">
 
-        <!-- Selector de origen -->
         <label>Seleccionar origen de datos:</label>
-        <select name="origen" required>
+        <select name="origen" class="input-box">
             <option value="csv">CSV</option>
             <option value="mysql">MySQL</option>
             <option value="mariadb">MariaDB</option>
             <option value="sqlite">SQLite</option>
         </select>
 
-        <!-- Campos numéricos -->
         <label>Hectáreas:</label>
         <input type="number" step="0.01" name="hectareas" required>
 
-        <label>Temperatura media anual (°C):</label>
+        <label>Temperatura media:</label>
         <input type="number" step="0.01" name="temperatura" required>
 
-        <label>Precipitaciones (mm):</label>
+        <label>Litros de lluvia:</label>
         <input type="number" step="0.01" name="lluvia" required>
 
         <button type="submit">Calcular</button>
-
     </form>
 
     {% if prediccion %}
         <h3>Resultado: {{ prediccion }} toneladas</h3>
-
         {% if grafico %}
-            <img src="{{ grafico }}" alt="Gráfico de predicción">
+            <img src="{{ grafico }}" alt="Gráfico de predicción" style="width:100%; margin-top:10px;">
         {% endif %}
     {% endif %}
-
 </div>
 
 </body>
