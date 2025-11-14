@@ -17,6 +17,32 @@ modelo = joblib.load("modelo_IA.pkl")
 if not os.path.exists("static"):
     os.makedirs("static")
 
+@app.route("/upload", methods=["POST"])
+def upload():
+    archivo = request.files["archivo"]
+    ruta = os.path.join("uploads", archivo.filename)
+    archivo.save(ruta)
+
+    # Detectar tipo de archivo
+    if archivo.filename.endswith(".csv"):
+        df = fuente.leer_csv(ruta)
+
+    elif archivo.filename.endswith(".xlsx") or archivo.filename.endswith(".xls"):
+        df = fuente.leer_excel(ruta)
+
+    else:
+        return "Formato no compatible"
+
+    # Guardar DataFrame para entrenamiento
+    df.to_csv("cosechas.csv", index=False)
+
+    return "Archivo subido correctamente. Ahora puedes entrenar la IA."
+
+@app.route("/train", methods=["POST"])
+def train():
+    import subprocess
+    proceso = subprocess.run(["python", "entrenar_modelo.py"], capture_output=True, text=True)
+    return f"<pre>{proceso.stdout}</pre>"
 
 @app.route("/", methods=["GET", "POST"])
 def index():

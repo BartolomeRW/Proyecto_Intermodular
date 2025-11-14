@@ -8,6 +8,8 @@ import sqlite3
 def leer_csv(ruta):
     return pd.read_csv(ruta)
 
+def leer_excel(ruta):
+    return pd.read_excel(ruta)
 
 # ------------------------------
 # LECTURA DESDE MYSQL / MARIADB
