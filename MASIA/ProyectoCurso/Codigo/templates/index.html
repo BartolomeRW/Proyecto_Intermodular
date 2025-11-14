@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Predicción IA - Producción Agrícola</title>
+    <link rel="stylesheet" href="/static/css/masia.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,52 +46,53 @@
     </style>
 </head>
 <body>
+<div class="container">
+    <div class="card">
+        <h2>Predicción IA - Producción Agrícola</h2>
 
-<div class="card">
-    <h2>Predicción IA - Producción Agrícola</h2>
+    <h3>Entrenar IA con tus datos de Masiá</h3>
 
-<h3>Entrenar IA con tus datos de Masiá</h3>
-
-<form action="/upload" method="POST" enctype="multipart/form-data">
-    <label>Selecciona archivo (CSV o Excel):</label>
-    <input type="file" name="archivo" required>
-    <button type="submit">Subir y entrenar</button>
-</form>
-
-<hr>
-
-    <form method="POST">
-
-        <label>Seleccionar origen de datos:</label>
-        <select name="origen" class="input-box">
-            <option value="csv">CSV</option>
-            <option value="mysql">MySQL</option>
-            <option value="mariadb">MariaDB</option>
-            <option value="sqlite">SQLite</option>
-        </select>
-
-        <label>Hectáreas:</label>
-        <input type="number" step="0.01" name="hectareas" required>
-
-        <label>Temperatura media:</label>
-        <input type="number" step="0.01" name="temperatura" required>
-
-        <label>Litros de lluvia:</label>
-        <input type="number" step="0.01" name="lluvia" required>
-
-        <button type="submit">Calcular</button>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <label>Selecciona archivo (CSV o Excel):</label>
+        <input type="file" name="archivo" required>
+        <button type="submit">Subir y entrenar</button>
     </form>
 
-    <form action="/train" method="POST">
-        <button type="submit">Reentrenar IA con datos subidos</button>
-    </form>
+    <hr>
 
-    {% if prediccion %}
-        <h3>Resultado: {{ prediccion }} toneladas</h3>
-        {% if grafico %}
-            <img src="{{ grafico }}" alt="Gráfico de predicción" style="width:100%; margin-top:10px;">
+        <form method="POST">
+
+            <label>Seleccionar origen de datos:</label>
+            <select name="origen" class="input-box">
+                <option value="csv">CSV</option>
+                <option value="mysql">MySQL</option>
+                <option value="mariadb">MariaDB</option>
+                <option value="sqlite">SQLite</option>
+            </select>
+
+            <label>Hectáreas:</label>
+            <input type="number" step="0.01" name="hectareas" required>
+
+            <label>Temperatura media:</label>
+            <input type="number" step="0.01" name="temperatura" required>
+
+            <label>Litros de lluvia:</label>
+            <input type="number" step="0.01" name="lluvia" required>
+
+            <button type="submit">Calcular</button>
+        </form>
+
+        <form action="/train" method="POST">
+            <button type="submit">Reentrenar IA con datos subidos</button>
+        </form>
+
+        {% if prediccion %}
+            <h3>Resultado: {{ prediccion }} toneladas</h3>
+            {% if grafico %}
+                <img src="{{ grafico }}" alt="Gráfico de predicción" style="width:100%; margin-top:10px;">
+            {% endif %}
         {% endif %}
-    {% endif %}
+    </div>
 </div>
 
 </body>

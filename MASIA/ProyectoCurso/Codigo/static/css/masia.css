@@ -1,0 +1,83 @@
+/* ======= ESTILO VERDE AGRÍCOLA MASIÁ CÍSCAR ======= */
+
+/* Fuente y fondo general */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #e6f1e8;  /* Verde claro suave */
+}
+
+/* Contenedor principal */
+.container {
+    width: 90%;
+    max-width: 850px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* Título */
+h1, h2, h3 {
+    text-align: center;
+    color: #1b5e20; /* Verde intenso agrícola */
+    font-weight: 700;
+}
+
+/* Etiquetas */
+label {
+    font-weight: 600;
+    color: #2f4f31;
+}
+
+/* Inputs */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 14px;
+    border-radius: 7px;
+    border: 1px solid #9fbe9d;
+    background: #f9fff8;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #1b5e20;
+    box-shadow: 0 0 5px rgba(27, 94, 32, 0.4);
+}
+
+/* Botones */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #2e7d32; /* Verde corporativo Masía */
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 7px;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1b5e20;
+}
+
+/* Sección separadora */
+hr {
+    border: none;
+    border-top: 2px solid #b6d5b3;
+    margin: 25px 0;
+}
+
+/* Imagen del gráfico */
+img {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
