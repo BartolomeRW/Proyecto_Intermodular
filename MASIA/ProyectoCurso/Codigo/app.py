@@ -46,43 +46,37 @@ def train():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-
     prediccion = None
     grafico = None
 
     if request.method == "POST":
-
-        origen = request.form.get("origen")
         hect = float(request.form["hectareas"])
         temp = float(request.form["temperatura"])
         lluv = float(request.form["lluvia"])
 
-        # ------------------------------
-        # Selección del origen
-        # ------------------------------
-        if origen == "mysql":
-            df = leer_mariadb(
-                host="localhost",
-                user="root",
-                password="1234",
-                database="produccion_agricola",
-                tabla="cosechas"
-            )
+        entrada = np.array([[hect, temp, lluv]])
+        prediccion = round(modelo.predict(entrada)[0], 2)
 
-        elif origen == "mariadb":
-            df = leer_mariadb(
-                "localhost",
-                "root",
-                "1234",
-                "produccion_agricola",
-                "cosechas"
-            )
+        # Cargar datos ya entrenados
+        df = pd.read_csv("cosechas.csv")
 
-        elif origen == "sqlite":
-            df = leer_sqlite("basedatos.db", "cosechas")
+        # Gráfico
+        if not os.path.exists("static"):
+            os.makedirs("static")
 
-        else:
-            df = leer_csv("cosechas.csv")
+        plt.figure(figsize=(6, 4))
+        plt.plot(df["anio"], df["toneladas"], marker="o")
+        plt.scatter(2026, prediccion, color="red")
+        plt.title("Predicción de producción")
+        plt.xlabel("Año")
+        plt.ylabel("Toneladas")
+        plt.tight_layout()
+
+        grafico = "static/grafico.png"
+        plt.savefig(grafico)
+        plt.close()
+
+    return render_template("index.html", prediccion=prediccion, grafico=grafico)
 
         # ------------------------------
         # PREDICCIÓN
